@@ -1,0 +1,11 @@
+.DS_Store
+
+node_modules
+npm-debug.log*
+tmp
+.tmp
+.env
+.idea
+.vscode
+
+upload

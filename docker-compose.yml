@@ -1,0 +1,34 @@
+version: "2"
+
+services:
+    app:
+        build:
+          context: .
+          args:
+              - NPM_CONFIG_REGISTRY
+              - NPM_CONFIG_DISTURL
+        links:
+            - mongodb
+            - cache
+        ports:
+            - "0.0.0.0:6669:9996"
+        volumes:
+            - .:/opt/fxshop-backend
+        command: npm run start:watch
+        environment:
+            DEBUG: "*,-babel,-eslint:*,-follow-redirects"
+            MONGODB_URL: "mongodb://webedit:fxshop123abc@mongodb:27017/fxshop"
+            NODE_ENV: "development"
+            REDIS_HOST: "cache"
+
+    mongodb:
+        image: mongo:3.6
+        ports:
+            - "27019:27017"
+        volumes:
+            - ./.tmp/mongo/db:/data/db
+        command: mongod --auth
+
+    cache:
+        image: "redis:alpine"    
+

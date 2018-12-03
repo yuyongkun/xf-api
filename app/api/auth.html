@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button id="btn">点击获取 cookie</button>
+  <button id="btn-1">点击隐藏 cookie</button>
+  <p id="cookie"></p>
+  <script>
+    let btn = document.querySelector('#btn')
+    let btn1 = document.querySelector('#btn-1')
+    let p = document.querySelector('#cookie')
+    btn.addEventListener('click', (event) => {
+      p.innerHTML = `cookie 为：${document.cookie}`
+    }, false)
+    btn1.addEventListener('click', (event) => {
+      p.innerHTML = ''
+    }, false)
+  </script>
+</body>
+</html>

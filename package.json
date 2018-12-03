@@ -1,0 +1,48 @@
+{
+  "name": "fxshop-backend",
+  "version": "1.0.0",
+  "description": "fxshop apis",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "forever restart ./app",
+    "stop": "forever stop ./app",
+    "start:watch": "forever --minUptime 1000 --spinSleepTime 1000 --watch --watchDirectory ./app ./app",
+    "dev": "docker-compose run --rm app",
+    "dev:up": "docker-compose down && docker-compose up --build -d && docker-compose logs -f app",
+    "dev:down": "docker-compose down",
+    "dev:logs": "docker-compose logs -f app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.fanxify.com:30000/zhushijie/fxshop-backend.git"
+  },
+  "keywords": [
+    "fxshop",
+    "nodejs"
+  ],
+  "author": "mrzhushijie@126.com",
+  "license": "SEE LICENSE IN LICENSE",
+  "dependencies": {
+    "axios": "^0.17.0",
+    "debug": "^3.1.0",
+    "forever": "^0.15.3",
+    "http-status": "^1.0.1",
+    "js2xmlparser": "^3.0.0",
+    "jsdom": "^11.3.0",
+    "koa": "^2.3.0",
+    "koa-body": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-compose": "^4.0.0",
+    "koa-morgan": "^1.0.1",
+    "koa-path-match": "^2.0.0",
+    "koa-route": "^3.2.0",
+    "koa-static": "^4.0.3",
+    "koa-xml-body": "^2.0.0",
+    "mongodb": "^2.2.33",
+    "qrcode": "^1.0.0",
+    "redis": "^2.8.0",
+    "request": "^2.83.0",
+    "xml2js": "^0.4.19"
+  }
+}
