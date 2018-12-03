@@ -13,7 +13,7 @@ const {
 const { compose, mount } = require('../middlewares/koa-utils')
 const { notFound } = require('../middlewares/fallback')
 const { parseBody, parseXml } = require('../middlewares/body-parser')
-const { handleLoginRequest, handleStaffLogin, wxUserAuth, validateAuthorization, wxStaffAuth } = require('../middlewares/auth')
+const { handleLoginRequest, handleStaffLogin, wxUserAuth, wxUserAuth2,validateAuthorization, wxStaffAuth } = require('../middlewares/auth')
 const { serveStatic } = require('../middlewares/serve-static')
 const couponFieldMapping = require('../middlewares/coupon-field-mapping')
 
@@ -427,7 +427,9 @@ module.exports = compose([
             .get(staffApi.getStaffCommentStats),
           // user
           route('/user-info2')
-            .get(compose([wxUserAuth2, userApi.handleGetUser2])),
+          .get(wxUserAuth2),
+          // route('/user-info2')
+          //   .get(compose([wxUserAuth2, userApi.handleGetUser2])),
           route('/user-info')
             .get(compose([wxUserAuth, userApi.handleGetUser])),
           route('/user-orders')

@@ -1,4 +1,5 @@
 const Koa = require('koa')
+const path = require('path')
 
 const RequestLogger = require('./lib/request-logger')
 const console = require('./lib/log-console')
@@ -14,6 +15,11 @@ app.proxy = true
 
 app.name = '<%= appname %>'
 app.use(serve(path.join(__dirname)+'/public/'))
+
+const route = require('koa-route');
+// app.use(route.get('/api/wx/user-info2', function(ctx,next){
+// debugger;
+// }));
 // request logger
 app.use(RequestLogger)
 
@@ -30,7 +36,7 @@ if (require.main === module) {
 
 function runAsMain() {
   // Get port config from environment variables
-  const DEFAULT_PORT = 9996
+  const DEFAULT_PORT = 80
   const port = parseInt(process.env.PORT, 10) || DEFAULT_PORT
   
   app.listen(port)

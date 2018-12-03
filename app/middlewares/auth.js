@@ -19,6 +19,7 @@ module.exports = {
     validateStaffAuthorization,
     handleStaffLogin,
     wxUserAuth,
+    wxUserAuth2,
     wxStaffAuth,
 
     _getAuthorizedAdminSession,
@@ -202,37 +203,45 @@ async function wxUserAuth2(ctx, next) {
     // 如果access_token已经存在
     if (ctx.req.access_token && ctx.req.openid) {
         // 1,先检测access_token是否过期
-        weixinAuth.accessTokenValid(ctx.req.access_token, ctx.req.openid).then(result => {
+        weixinAuth.weixinAuth.accessTokenValid(ctx.req.access_token, ctx.req.openid).then(result => {
             if (result.errcode != 0) { //过期
                 // 使用refresh_token刷新
-                weixinAuth.refreshToken(ctx.req.refresh_token).then(result => {
+                weixinAuth.weixinAuth.refreshToken(ctx.req.refresh_token).then(result => {
                     if (result.access_token) {
                         ctx.req.access_token = result.access_token;
                         ctx.req.refresh_token = result.refresh_token;
                     } else { //refresh_token失效，重新授权获取access_token
-                        weixinAuth.getCode(ctx.href);
+                        // weixinAuth.weixinAuth.getCode(ctx,'shop-home-user','https://yyktest.natapp4.cc/index.html?state=shop-home-user');
+                       next();
                     }
                 });
             }
 
         });
     } else {
-        if (location.href.indexOf('code=') !== -1) {
-            let code = getParameter('code');
-            weixinAuth.getAccessToken(code).then(result => {
-                ctx.req.access_token = result.access_token;
-                ctx.req.openid = result.openid;
-                ctx.req.refresh_token = result.refresh_token;
-                weixinAuth.getUserInfo(result.access_token, result.openid).then(result => {
-                    return result;
-                });
-            });
+        let code=ctx.querystring.split('=')[1];
+        if (code) {
+            try{
+                let result= await weixinAuth.weixinAuth.getAccessToken(code);
+                if(result.errcode)return result.errmsg;
+                 ctx.req.access_token = result.access_token;
+                 ctx.req.openid = result.openid;
+                 ctx.req.refresh_token = result.refresh_token;
+                 let result2= await weixinAuth.weixinAuth.getUserInfo(result.access_token, result.openid);
+                 ctx.body = { data:{
+                    user:{result2}
+                 }}
+            }catch(e){
+                ctx.body =e;
+            }
+           
         } else {
-            weixinAuth.getCode(ctx.href);
+            next();
+            // weixinAuth.weixinAuth.getCode(ctx,'shop-home-user','https://yyktest.natapp4.cc/index.html?state=shop-home-user');
         }
     }
 
-},
+}
 
 async function wxUserAuth(ctx, next) {
     let token = ctx.cookies.get('T')

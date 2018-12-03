@@ -192,22 +192,3 @@ module.exports.formatDistance = (dis) => {
         return '超过一千公里'
     }
 }
-
-
-/*
- * 获取字符串中"?"后面的值
- * */
-module.exports.getParameter: function(param) {
-    let reg = new RegExp('[&,?]' + param + '=([^\\&]*)', 'i');
-    let value = reg.exec(location.search);
-    return value ? value[1] : '';
-}
-
-/*
- * 获取字符串中"#"后面的值
- * */
-module.exports.getHashParameter: function(param) {
-    let reg = new RegExp('[&,#]' + param + '=([^\\&]*)', 'i');
-    let value = reg.exec(location.hash);
-    return value ? value[1] : '';
-}
